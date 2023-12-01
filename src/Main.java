@@ -23,13 +23,62 @@ public class Main {
         timeStart = System.currentTimeMillis();
         reversNumber = findReverseNumberSimple(index);
         timeEnd = System.currentTimeMillis();
-        System.out.println("Simple metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber);
+        System.out.println("Simple metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber + ". Index is " + index);
 
+        index = 19_000_000;
         timeStart = System.currentTimeMillis();
         reversNumber = findReverseNumberUpdate(index);
         timeEnd = System.currentTimeMillis();
-        System.out.println("Update metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber);
+        System.out.println("Update metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber + ". Index is " + index);
 
+        index = 19_000_000l;
+        timeStart = System.currentTimeMillis();
+        reversNumber = findReverseNumberUpdate2(index);
+        timeEnd = System.currentTimeMillis();
+        System.out.println("Update 2 metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber + ". Index is " + index);
+
+    }
+
+    public static BigInteger findReverseNumberUpdate2(long n) {
+        boolean isOdd = true;
+        StringBuilder answer;
+        long centerNumber;// first part of the polydrome number
+        long interval = 0; //the maximum palindrome index at which the length of the polyndrome does not increase
+        long koef = 9;//coefficient to add when palindrome length goes from odd to even
+
+        if (n < 11) {
+            return new BigInteger(Long.toString(n - 1));
+        }
+
+        for (long i = 11; i <= n;) {
+
+            isOdd = !isOdd;
+
+            interval = i;
+            if(isOdd) {
+                koef *= 10;
+                if(n < 20){
+                    i = 9;
+                }
+            }
+            i += koef;
+        }
+        //System.out.println("k= " + koef + " i= " + interval + " isOdd " + isOdd);
+        if(isOdd)
+            centerNumber = (long) (n - Math.pow(10, (double) (Long.toString(koef).length() - 1)));
+        else
+            centerNumber = (long) (n - Math.pow(10, (double) (Long.toString(n).length() - 1)));
+
+
+
+        if(!isOdd) { // create full number (revers first part of number)
+            answer = new StringBuilder(Long.toString(centerNumber)).append(new StringBuilder(Long.toString(centerNumber)).reverse());
+        } else {
+            StringBuilder stringBuilder = new StringBuilder(Long.toString(centerNumber));
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            answer = new StringBuilder(Long.toString(centerNumber)).append(stringBuilder.reverse());
+        }
+        return new BigInteger(answer.toString());
     }
     public static BigInteger findReverseNumberUpdate(long n) {
         boolean isOdd = true;
