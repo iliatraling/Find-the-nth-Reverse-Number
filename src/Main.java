@@ -14,5 +14,28 @@ import java.math.BigInteger;
 //    1 < n <= 100000000000
 public class Main {
     public static void main(String[] args) {
+        long timeStart, timeEnd;
+        BigInteger reversNumber;
+        timeStart = System.currentTimeMillis();
+        reversNumber = findReverseNumberSimple(10_000);
+        timeEnd = System.currentTimeMillis();
+        System.out.println("Simple metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber);
+
+    }
+    public static BigInteger findReverseNumberSimple(long n) {
+        long answer = 0;
+        for (long i = 0, count = 1; count <= n; i++) {
+
+            String str = Long.toString(i);
+            String strReverse = new StringBuilder(str).reverse().toString();
+            if (str.equals(strReverse)) {
+                //System.out.println(str + " " + count);
+                count++;
+                answer = i;
+            }
+
+        }
+        //System.out.println(" ");
+        return new BigInteger(Long.toString(answer));
     }
 }
