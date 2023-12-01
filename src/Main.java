@@ -16,10 +16,19 @@ public class Main {
     public static void main(String[] args) {
         long timeStart, timeEnd;
         BigInteger reversNumber;
+
+        long index = 10_000;
+
+        System.out.println("Index of polindrom is " + index);
         timeStart = System.currentTimeMillis();
-        reversNumber = findReverseNumberUpdate(10_000);
+        reversNumber = findReverseNumberSimple(index);
         timeEnd = System.currentTimeMillis();
         System.out.println("Simple metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber);
+
+        timeStart = System.currentTimeMillis();
+        reversNumber = findReverseNumberUpdate(index);
+        timeEnd = System.currentTimeMillis();
+        System.out.println("Update metod execution time = " + (timeEnd - timeStart) + " ms. Revers Number is " + reversNumber);
 
     }
     public static BigInteger findReverseNumberUpdate(long n) {
@@ -27,9 +36,6 @@ public class Main {
         StringBuilder answer;
         long centerNumber = 11;// first part of the polydrome number
         long koef = 10;//the coefficient that must be subtracted changes when the length of the polydrome turns from odd to even
-
-
-
 
         if(n < 11)
             return new BigInteger(Long.toString(n - 1));
@@ -52,5 +58,21 @@ public class Main {
             answer = new StringBuilder(Long.toString(centerNumber)).append(stringBuilder.reverse());
         }
         return new BigInteger(answer.toString());
+    }
+    public static BigInteger findReverseNumberSimple(long n) {
+        long answer = 0;
+        for (long i = 0, count = 1; count <= n; i++) {
+
+            String str = Long.toString(i);
+            String strReverse = new StringBuilder(str).reverse().toString();
+            if (str.equals(strReverse)) {
+                //System.out.println(str + " " + count);
+                count++;
+                answer = i;
+            }
+
+        }
+        //System.out.println(" ");
+        return new BigInteger(Long.toString(answer));
     }
 }
